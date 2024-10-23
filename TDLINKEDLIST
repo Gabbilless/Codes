@@ -1,0 +1,77 @@
+#include "TDLinkedList.h"
+#include<stdio.h>
+#include <stdlib.h>
+
+typedef struct _no{
+    int info;
+    struct _no* prox;
+    struct _no* ant; 
+}no;
+
+typedef struct _list{
+    no* inicio;
+    no *fim;
+    unsigned int qty;
+}TDLinkedList;
+
+no* criate(int info){
+    no* novo = malloc(sizeof(no));
+    novo->info = info;
+    novo->prox = NULL;
+    novo->ant = NULL;
+
+    return novo;
+}
+
+TDLinkedList* TDLinkedList_createNFill(no* no){
+    TDLinkedList* lista = malloc(sizeof(TDLinkedList));
+    lista->inicio = NULL;
+    lista->fim = NULL;
+    return lista;
+}
+
+bool TDLinkedList_insert_end(TDLinkedList* lista, int info){
+    no* novo = criate(info);
+    if(novo == NULL) return false;
+    if(lista->inicio == NULL){
+        lista->inicio = novo;
+        lista->fim = novo;
+    }else{
+        lista->fim->prox = novo;
+        novo ->ant = lista->fim;
+        lista->fim = novo; 
+    }
+    return true;
+}
+
+bool TDLinkedList_insert_begin(TDLinkedList* lista, int info){
+    no* novo = criate(info);
+    if(novo==NULL) return false;
+    if (lista->inicio == NULL){
+        lista->inicio = novo;
+        lista->fim = novo;
+    }else{
+        no* aux = lista->inicio;
+        lista->inicio = novo;
+        aux->ant = novo;
+        novo->prox = aux;
+    }
+    lista->qty++;
+    return true;
+}
+
+void print_begin(TDLinkedList* lista){
+    no* aux = lista->inicio;
+    while(aux != NULL){
+        printf("<- %d ->", aux->info);
+        aux = aux->prox;
+    }
+
+}
+void print_end(TDLinkedList* lista){
+    no* aux = lista->fim;
+    while(aux != NULL){
+        printf("<- %d ->", aux->info);
+        aux = aux->ant;
+    }
+}
